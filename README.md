@@ -24,10 +24,13 @@ This project will analyze all vehicle accidents as reported by the UK Department
 
 The dataset has been obtained from the UK government website (Department for Transport, 2022b). It provides road safety data about the circumstances of personal injury road accidents in the UK from 1979 to 2021. The data contains only non-sensitive fields that can be made public. There are 3 main tables:
 
-| Accident | List of accidents with date, time, location, road parameters, light conditions, number of casualties and vehicles, speed limit, weather conditions. | 101,088 | 36 |
-| Casualty | Age & sex of casualty, whether pedestrian/driver/passenger, severity of injury | 128,210 | 19 |
-| Vehicle | Driver age, sex, vehicle age, engine capacity, car make & model, which object was hit, journey purpose, vehicle maneuver, vehicle type, | 186,444 | 28 |
-| **Table 1:** Summary of data tables |
+|Table|Data Description|# of records in 2021|#  of variables|
+|:----|:----|:----|:----|
+|Accident|List of accidents with date, time, location, road parameters, light conditions, number of casualties and vehicles, speed limit, weather conditions.|101,088|36|
+|Casualty|Age & sex of casualty, whether pedestrian/driver/passenger, severity of injury|128,210|19|
+|Vehicle|Driver age, sex, vehicle age, engine capacity, car make & model, which object was hit, journey purpose, vehicle maneuver, vehicle type,  |186,444|28|
+
+**Table 1:** *Summary of data tables*
 
 
 For this analysis, all three tables were joined so that each casualty record in the final data frame has corresponding vehicle and accident variables.
@@ -78,34 +81,16 @@ The entire dataset was randomly split 80:20 into training and testing. Cross val
 
 Because of the large number of variables, feature selection was performed. Using fewer features in a model can sometimes increase its accuracy and reduce variance. Importance weightings of features were obtained using the Ridge Regression with 5 fold cross validation. This technique deals well with correlated variables and tries to establish variables that have exactly zero effect. 100 most important variables resulting in KSI were selected and summarised:
 
-| §  Type: trucks, motorcycles, agricultural vehicles, buses or coaches
+|Vehicle variables (58/100)|Casualty (33/100)|Accident (9/100)|
+|:----|:----|:----|
+|- Type: trucks, motorcycles, agricultural vehicles, buses or coaches |- Truck occupant | - Extreme weather conditions (flood, snow, winds)|
+|- Hit object off carriageway | - Motorcycle driver/passenger  | - Road conditions (oil spillage, defective road markings, signs or surface)|
+|- Submerged in water | - Bus/van occupant | - Relatively low importance of rain or day/night | <br>|
+|- Not near junction | - Over 75 or under 10 yo  |   <br>|
+|- Skidded or overturned | - Pedestrian |  <br>|
+|- Age of driver 11-15 yo | - Drivers significantly less likely to die than passengers |  <br>|
 
-§  Hit object off carriageway
-
-§  Submerged in water
-
-§  Not near junction
-
-§  Skidded or overturned
-
-§  Age of driver 11-15 yo | §  Truck occupant
-
-§  Motorcycle driver/passenger
-
-§  Bus/van occupant
-
-§  Over 75 or under 10 yo
-
-§  Pedestrian
-
-§  Drivers significantly less likely to die than passengers | §  Extreme weather conditions (flood, snow, winds)
-
-§  Road conditions (oil spillage, defective road markings, signs or surface)
-
-§   Relatively low importance of rain or day/night |
-| **Table 2:** Summary of 100 most important variables identified using ridge regression. |
-
-<![endif]-->
+**Table 2:** *Summary of 100 most important variables identified using ridge regression.*
 
 ### Machine learning techniques used
 
@@ -113,33 +98,33 @@ The problem has been reduced to a supervised classification problem. Using pytho
 
 #### Parallel Ensemble methods
 
-**Random Forest**: combines and aggregates many decision trees that each vote for the class based on the underlying splits in the data.
+- **Random Forest**: combines and aggregates many decision trees that each vote for the class based on the underlying splits in the data.
 
-**Bagging**: or bootstrap aggregating; uses random sampling with replacement from training data. It generates multiple weak learners from this data and aggregates them improving the prediction by reducing variance and overfit. Computationally expensive.
+- **Bagging**: or bootstrap aggregating; uses random sampling with replacement from training data. It generates multiple weak learners from this data and aggregates them improving the prediction by reducing variance and overfit. Computationally expensive.
 
 #### Sequential Ensemble methods:
 
-**AdaBoost** or Adaptive Boosting: uses one level decision trees as weak learners putting weight on difficult to classify points.
+- **AdaBoost** or Adaptive Boosting: uses one level decision trees as weak learners putting weight on difficult to classify points.
 
-**Gradient Boosting**: sequentially adds predictors that improve on ones already included in the model. Gradient descent is used to select and correct the predictors, improving accuracy.
+- **Gradient Boosting**: sequentially adds predictors that improve on ones already included in the model. Gradient descent is used to select and correct the predictors, improving accuracy.
 
-**XGBoost** or Extreme Gradient Boosting: uses weights assigned to variables to construct decision trees. If a variable is predicted wrong, the weight of it is increased and sent to a second decision tree.
+- **XGBoost** or Extreme Gradient Boosting: uses weights assigned to variables to construct decision trees. If a variable is predicted wrong, the weight of it is increased and sent to a second decision tree.
 
 #### Baseline methods:
 
-**Logistic regression**
+- **Logistic regression**
 
-**KNN – K Nearest Neighbor**
+- **KNN – K Nearest Neighbor**
 
-**Linear Discriminant Analysis**
+- **Linear Discriminant Analysis**
 
-**Quadratic Discriminant Analysis**
+- **Quadratic Discriminant Analysis**
 
-**Gaussian Naïve Bayes Classifier**
+- **Gaussian Naïve Bayes Classifier**
 
-**Bernoulli Naïve Bayes Classifier**
+- **Bernoulli Naïve Bayes Classifier**
 
-**SVM Classifier**
+- **SVM Classifier**
 
 ## Analysis and results
 
@@ -153,26 +138,18 @@ Top three performing models: Bernoulli NB, LDA and Gaussian NB were hyper tuned.
 Naïve Bayes determines probabilities of each class associated with the features and predicts class with the highest probability. Unfortunately, this model does not offer a standard way of evaluating feature importances. Therefore, despite highest predictive power, the model offers little in terms of explainability of results.
 
 In order to understand the output of the model permutation importance has been performed on all features of the dataset. This technique measures the decrease in feature importance if a feature is randomly shuffled. Top 10 features are as follows:
-
-<![if !supportLists]>§ <![endif]>Pedestrians (casualty class)
-
-<![if !supportLists]>§ <![endif]>Motorcycles (vehicle class)
-
-<![if !supportLists]>§ <![endif]>Occupants of motorcycles
-
-<![if !supportLists]>§ <![endif]>Pedestrians crossing carriageway
-
-<![if !supportLists]>§ <![endif]>Pedestrians crossing from driver’s offside
-
-<![if !supportLists]>§ <![endif]>Pedestrians crossing on junction
-
-<![if !supportLists]>§ <![endif]>Pedestrians walking in carriageway
-
-<![if !supportLists]>§ <![endif]>Cyclists
-
-<![if !supportLists]>§ <![endif]>Other vehicle occupants
-
-<![if !supportLists]>§ <![endif]>Drivers or riders (casualty class)
+<ol>
+<li>Pedestrians (casualty class)</li>
+<li>Motorcycles (vehicle class)</li>
+<li>Occupants of motorcycles</li>
+<li>Pedestrians crossing carriageway</li>
+<li>Pedestrians crossing from driver’s offside</li>
+<li>Pedestrians crossing on junction</li>
+<li>Pedestrians walking in carriageway</li>
+<li>Cyclists</li>
+<li>Other vehicle occupants</li>
+<li>Drivers or riders (casualty class)</li>
+</ol>
 
 In summary, pedestrians are most likely to get seriously injured, especially if they are located in traffic. Motorcyclists and cyclists are also at risk. Drivers are less likely to be injured than passengers.
 
@@ -182,19 +159,17 @@ Final classification model using the python sklearn Bernoulli NB classifier with
 
 Confusion matrix of the model in Figure below indicates that the models correctly predicted 4,987 non-KSI accidents and 690 KSI accidents. It incorrectly classified 481 KSI accidents as non-KSI and 1,498 non-KSI accidents as KSI.
 
-<![endif]-->
-
 ## Conclusions
 
 Applying the outputs of the model in the context of the problem, several important conclusions can be made.
 
-<![if !supportLists]>× <![endif]>Pedestrians, cyclists, and motorcycle riders are most at risk. Governments should prioritize safety of these road users.
+- Pedestrians, cyclists, and motorcycle riders are most at risk. Governments should prioritize safety of these road users.
 
-<![if !supportLists]>× <![endif]>Drivers are at lower risk than passengers with more vulnerable casualties at either end of the age spectrum (0-10 and 60+ years old)
+- Drivers are at lower risk than passengers with more vulnerable casualties at either end of the age spectrum (0-10 and 60+ years old)
 
-<![if !supportLists]>× <![endif]>There are several contributing factors to road casualties. Poor road markings and extreme weather conditions to name a few.
+- There are several contributing factors to road casualties. Poor road markings and extreme weather conditions to name a few.
 
-<![if !supportLists]>× <![endif]>It is difficult to fully separate all factors as there are multiple variables in each incident. Each accident is a unique combination of thousands of variables that contribute to its outcome.
+- It is difficult to fully separate all factors as there are multiple variables in each incident. Each accident is a unique combination of thousands of variables that contribute to its outcome.
 
 ### Future work
 
@@ -216,9 +191,6 @@ Hyperparameter tuning took up a lot of time and it was impossible to run the ful
 ## Featured Notebooks/Analysis/Deliverables
 * [Summary Slide Deck](link)
 * [Notebook with all the code](link)
-
-
-<![endif]-->
 
 ## References
 
