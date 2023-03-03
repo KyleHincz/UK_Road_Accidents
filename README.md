@@ -2,6 +2,9 @@
 # UK Road Accidents Data Analysis & Casualty Prediction
 
 #### - Project Status: [Completed]
+* In a rush? Check out the Summary Slide Deck: ([link](https://github.com/KyleHincz/UK_Road_Accidents/blob/c817a2453c0519c314ac483e25b17896fe66d227/UK%20Accident%20Data%20-%20Presentation.pdf))
+* Notebook with all the code: ([link](https://github.com/KyleHincz/UK_Road_Accidents/blob/c817a2453c0519c314ac483e25b17896fe66d227/Uk_accidents-code-FINAL.ipynb))
+
 
 ## Introduction
 Road accidents are a traumatic experience for everyone involved and frequently end in death or serious injury. One of the priorities of the UK government and the police force is to actively monitor and prevent traffic accidents. Despite this, in 2021 the UK reported over 100k vehicle accidents with over 128k casualties. Of those, 1.6k persons were killed and 25k were killed or seriously injured (KSI).
@@ -37,7 +40,7 @@ For this analysis, all three tables were joined so that each casualty record in 
 
 The problem statement is as follows: can a fatality or serious injury be predicted based on the description of the accident and other factors present in the dataset? If the fatality can be predicted with good confidence, there is a possibility of preventing the loss of human life. Some research in the field has been done with application of logistic regression to Italian accident data (Eboli et al., 2020) but comparing results across countries remains difficult due to different reporting styles of each country’s police force.
 
-The main challenge of the UK dataset will be its class imbalance. In 2021 there were ca 1,500 casualties out of 101k, equating to a fatality rate of just under 1,5%.
+The main challenge of the UK dataset will be its class imbalance. In 2021 there were ca 1,500 casualties out of 101k, equating to a fatality rate of just under 1.5%.
 
 Figure 1 presents key variables in the dataset visually. We can see that most casualties were male (62%) with slight injuries (79%). Most casualties happened in an urban environment (64%). Proportionally more men were injured as drivers (60k injured male drivers vs 26k injured female drivers) but more women were injured as passengers (1ok injured male passengers vs 14k injured female passengers). This could partially be explained by the fact that only 35% of registered cars in the UK were registered to a female keeper (Driver and Vehicle Licensing Agency, 2022).
 
@@ -202,10 +205,6 @@ Most significant variables obtained through ridge regression did not match the m
 
 Hyperparameter tuning took up a lot of time and it was impossible to run the full hyperparameter grid for models with many input parameters. Understanding the mathematical foundations of the model being used and its hyperparameters is crucial to a successful data mining project. One can mindlessly optimize but, without knowing the underlying formulas, it’s very hard to interpret the final parameters.
 
-
-## Featured Notebooks/Analysis/Deliverables
-* [Summary Slide Deck](link)
-* [Notebook with all the code](link)
 
 ## References
 
