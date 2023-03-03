@@ -41,6 +41,10 @@ The main challenge of the UK dataset will be its class imbalance. In 2021 there 
 
 Figure 1 presents key variables in the dataset visually. We can see that most casualties were male (62%) with slight injuries (79%). Most casualties happened in an urban environment (64%). Proportionally more men were injured as drivers (60k injured male drivers vs 26k injured female drivers) but more women were injured as passengers (1ok injured male passengers vs 14k injured female passengers). This could partially be explained by the fact that only 35% of registered cars in the UK were registered to a female keeper (Driver and Vehicle Licensing Agency, 2022).
 
+![image](https://user-images.githubusercontent.com/41335620/222798377-e3c3ec54-8c87-4d3c-94d0-f9e96bb25542.png)
+
+**Figure 1:** *Breakdown of UK 2021 road accident casualties by severity, sex, class, age, road user type and road type (prepared by Department for Transport, 2022a).*
+
 
 The dataset has already been cleaned and is in a format that is conducive to analysis. Most categorical variables have been encoded into integers. For instance, the y variable has been encoded into 3 categories: 1: fatal, 2: serious, 3: slight. Not all variables are populated for every accident – the dataset contains field value of -1 where the data is missing.
 
@@ -56,7 +60,9 @@ As mentioned, the source dataset was clean, with any missing data already encode
 
 As mentioned, the source dataset was clean, with any missing data already encoded as “-1” so no data cleaning was required. Despite this, the treatment of the missing records had to be considered as missing records constitute a significant proportion of all records and their inclusion or exclusion could impact model performance. For the distribution of records with missing data in the dataset, see Figure 2 below.
 
-#### INSERT FIGURE
+![image](https://user-images.githubusercontent.com/41335620/222797673-fde50df7-2e74-4e1c-9a05-c2d23d48a8cb.png)
+
+**Figure 2:** *Distribution of complete observations and observations with missing data by casualty severity.*
 
 
 An initial comparison of balanced accuracy of various models with and without incomplete records was performed. Removing incomplete records from training and testing data resulted in better model performance so these observations were removed before the final analysis
@@ -130,8 +136,11 @@ The problem has been reduced to a supervised classification problem. Using pytho
 
 Overall, 12 different models were tested and compared. Models performed best on full dataset with missing values removed. Bernoulli Naïve Bayes had best balanced accuracy (0.68) in all cases as well as one of the best F1 scores. Other models tended to be biased towards the non-KSI class or had either good precision or recall, but not both Figure 3 presents the results with averaged cross validated balanced accuracy.
 
-Top three performing models: Bernoulli NB, LDA and Gaussian NB were hyper tuned. For final hyper tuned parameters see Appendix 1. For full results and cross validated accuracy scores on the testing data see Appendix 2.
+Top three performing models: Bernoulli NB, LDA and Gaussian NB were hyper tuned. 
 
+![image](https://user-images.githubusercontent.com/41335620/222799032-85dd744b-194f-4a0c-a8e0-e23e2d4d761e.png)
+
+**Figure 3:** *Comparison of balanced accuracy between models and datasets.*
 
 ### Final model: Explanatory power
 
@@ -158,6 +167,12 @@ In summary, pedestrians are most likely to get seriously injured, especially if 
 Final classification model using the python sklearn Bernoulli NB classifier with optimized parameter alpha of 1.24479 achieved balanced accuracy of 0.68.
 
 Confusion matrix of the model in Figure below indicates that the models correctly predicted 4,987 non-KSI accidents and 690 KSI accidents. It incorrectly classified 481 KSI accidents as non-KSI and 1,498 non-KSI accidents as KSI.
+
+![image](https://user-images.githubusercontent.com/41335620/222798836-648b6bbe-07b6-4a26-8419-9a5d2d3ada9c.png)
+
+**Figure 4:** *Final model confusion matrix*
+
+Accuracy could be further improved by including more relevant features that the government omits from the dataset to protect identities of casualties.  
 
 ## Conclusions
 
